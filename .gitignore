@@ -1,0 +1,7 @@
+/DesktopForCafe/.vs/*
+/DesktopForCafe/.vs/
+/DesktopForCafe/obj/*
+/DesktopForCafe/obj/
+/DesktopForCafe/bin/*
+/DesktopForCafe/bin/
+*.user
