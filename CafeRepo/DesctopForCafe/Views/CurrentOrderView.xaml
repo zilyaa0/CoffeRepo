@@ -1,0 +1,54 @@
+﻿<Window x:Class="DesctopForCafe.Views.CurrentOrderView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:DesctopForCafe.Views"
+        mc:Ignorable="d"
+        Title="CurrentOrderView" Height="450" Width="800"
+        x:Name="window">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0">
+            <TextBlock Margin="30 30 30 0" Grid.Row="0" Grid.ColumnSpan="2" Text="Заказ" HorizontalAlignment="Center" FontSize="20"/>
+            <Grid Background="#C3C3C3" Margin="40 20">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition MinWidth="100"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <TextBlock Margin="30 0 30 10" Grid.Row="0" Grid.Column="0" Text="Номер заказа" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
+                <TextBlock Margin="30 0 30 10" Grid.Row="1" Grid.Column="0" Text="Покупатель"  HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
+                <TextBlock Margin="30 0 30 10" Grid.Row="2" Grid.Column="0" Text="Дата"  HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
+                <TextBlock Margin="30 10 0 10" Grid.Row="3" Grid.Column="0" Text="Состовляющие" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                <TextBlock Margin="30 0 30 10" Grid.Row="4" Grid.Column="0" Text="Цена"  HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
+                <TextBox Text="{Binding CurrentOrder.Id}" Margin="20 10 30 10" Height="20" Grid.Row="0" Grid.Column="1" TextAlignment="Center" VerticalContentAlignment="Center" IsReadOnly="True"/>
+                <TextBox Text="{Binding CurrentOrder.Customer}" Margin="20 10 30 10" Height="20" Grid.Row="1" Grid.Column="1" TextAlignment="Center" VerticalContentAlignment="Center" IsReadOnly="True"/>
+                <TextBox Text="{Binding CurrentOrder.CreatedAt}" Margin="20 10 30 10" Height="20" Grid.Row="2" Grid.Column="1" TextAlignment="Center" VerticalContentAlignment="Center" IsReadOnly="True"/>
+                <TextBox Text="{Binding CurrentOrder.TotalPrice}" Margin="20 10 30 10" Height="20" Grid.Row="4" Grid.Column="1" TextAlignment="Center" VerticalContentAlignment="Center" IsReadOnly="True"/>
+                <ListView Margin="20 10 30 10" Grid.Row="3" Grid.Column="1" ItemsSource="{Binding CurrentOrder.Items}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                <TextBox Margin="20 0 0 2" Height="20" MinWidth="150" Text="{Binding Name}" TextAlignment="Center" VerticalContentAlignment="Center" IsReadOnly="True"/>
+                                <TextBox Margin="10 0 20 2" Height="20" MinWidth="80" Text="{Binding Price}" TextAlignment="Center" VerticalContentAlignment="Center" IsReadOnly="True"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </Grid>
+        </StackPanel>
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0 20 0 30">
+            <Button Content="Отметить как выполненный" Command="{Binding Complete}" CommandParameter="{Binding ElementName=window}"/>
+        </StackPanel>
+    </Grid>
+</Window>

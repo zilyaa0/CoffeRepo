@@ -1,0 +1,36 @@
+﻿<Window x:Class="DesctopForCafe.Views.OrdersView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:DesctopForCafe.Views"
+        mc:Ignorable="d"
+        Title="OrdersView" Height="450" Width="800"
+        WindowStartupLocation="CenterScreen"
+        x:Name="window">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0">
+            <TextBlock Margin="30 30 30 0" Grid.Row="0" Grid.ColumnSpan="2" Text="Активные заказы" HorizontalAlignment="Center" FontSize="20"/>
+            <DataGrid Background="#C3C3C3" Margin="40 20"  SelectedItem="{Binding CurrentOrder}" ItemsSource="{Binding Orders}" AutoGenerateColumns="False" IsReadOnly="True" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="MouseDoubleClick">
+                        <i:InvokeCommandAction 
+                            Command="{Binding OpenItem}"
+                            CommandParameter="{Binding ElementName=window}"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Номер заказа" Binding="{Binding Id}" Width="150"/>
+                    <DataGridTextColumn Header="Дата" Binding="{Binding CreatedAt}" MinWidth="150"/>
+                    <DataGridTextColumn Header="Покупатель" Binding="{Binding Customer}" MinWidth="300"/>
+                    <DataGridTextColumn Header="Цена" Binding="{Binding TotalPrice}" MinWidth="120"/>
+                </DataGrid.Columns>
+            </DataGrid>
+        </StackPanel>
+    </Grid>
+</Window>

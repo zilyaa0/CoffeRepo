@@ -1,4 +1,5 @@
-﻿using DesctopForCafe.Views;
+﻿using DesctopForCafe.ViewModel;
+using DesctopForCafe.Views;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -16,8 +17,18 @@ namespace DesctopForCafe
     {
         private async void Application_Startup(object sender, StartupEventArgs e)
         {
-            var win = new MainWindow();
-            win.Show();
+            var win = new MenuView();
+            this.MainWindow = win;
+
+            var log = new LoginView();
+            var viewModel = new LoginVM();
+            log.DataContext = viewModel;
+            if (log.ShowDialog() == true)
+            {
+                var data = new MenuVM();
+                win.DataContext = data;
+                win.Show();
+            }
         }
     }
 }

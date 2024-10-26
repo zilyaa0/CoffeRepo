@@ -1,0 +1,35 @@
+﻿<Window x:Class="DesctopForCafe.Views.LoginView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:DesctopForCafe.Views"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800"
+        x:Name="LoginWin"
+        WindowStartupLocation="CenterScreen">
+    <Grid Background="#E4E4E4">
+        <Grid Background="#C3C3C3" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition MinWidth="150"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <TextBlock Margin="30 10" Grid.Row="0" Grid.ColumnSpan="2" Text="Авторизуйтесь для продолжения" FontSize="20"/>
+            <TextBlock Margin="30 0 30 10" Grid.Row="1" Grid.Column="0" Text="Логин" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
+            <TextBlock Margin="30 0 30 10" Grid.Row="2" Grid.Column="0" Text="Пароль"  HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
+            <Border Margin="0 0 30 10" CornerRadius="6" Grid.Row="1" Grid.Column="1">
+                <TextBox BorderThickness="0" Height="20" Text="{Binding Login}" x:Name="log" VerticalContentAlignment="Center"/>
+            </Border>
+            <Border Margin="0 0 30 10" CornerRadius="6" Grid.Row="2" Grid.Column="1">
+                <TextBox BorderThickness="0" Height="20" Text="{Binding Password}" x:Name="pas" VerticalContentAlignment="Center"/>
+            </Border>
+            <Button Margin="0 0 0 10" Grid.ColumnSpan="2" Grid.Row="3" Width="100" Command="{Binding ContinueCommand}" CommandParameter="{Binding ElementName=LoginWin}" Content="Продолжить"/>
+        </Grid>
+    </Grid>
+</Window>
