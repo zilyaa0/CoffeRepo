@@ -23,7 +23,9 @@ namespace DesctopForCafe
         public int Id { get; set; }
         public string ProductName { get; set; }
         public int Price { get; set; }
+        public Nullable<int> GroupId { get; set; }
     
+        public virtual ProductsGroup ProductsGroup { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Product_Order> Product_Order { get; set; }
     }

@@ -4,17 +4,19 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="d17d916abaad4681a98ee62a7d13b40b" Name="Diagram1">
+      <Diagram DiagramId="b591456d3e99460fac6a675c6a5a590e" Name="Diagram1">
         <EntityTypeShape EntityType="cafeModel.Customers" Width="1.5" PointX="0.75" PointY="1.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="cafeModel.Employee" Width="1.5" PointX="0.75" PointY="5.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="cafeModel.Menu" Width="1.5" PointX="3" PointY="5.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="cafeModel.Employee" Width="1.5" PointX="0.75" PointY="5.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="cafeModel.Menu" Width="1.5" PointX="3" PointY="9.25" IsExpanded="true" />
         <EntityTypeShape EntityType="cafeModel.Orders" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
-        <EntityTypeShape EntityType="cafeModel.Product_Order" Width="1.5" PointX="5.25" PointY="1.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="cafeModel.sysdiagrams" Width="1.5" PointX="5.75" PointY="4.75" IsExpanded="true" />
-        <AssociationConnector Association="cafeModel.FK__Orders__Customer__412EB0B6" ManuallyRouted="false" />
-        <AssociationConnector Association="cafeModel.FK__Orders__Employee__4222D4EF" ManuallyRouted="false" />
-        <AssociationConnector Association="cafeModel.FK__Product_O__Produ__44FF419A" ManuallyRouted="false" />
-        <AssociationConnector Association="cafeModel.FK__Product_O__Order__45F365D3" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="cafeModel.Product_Order" Width="1.5" PointX="5.25" PointY="1.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="cafeModel.ProductsGroup" Width="1.5" PointX="0.75" PointY="9.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="cafeModel.sysdiagrams" Width="1.5" PointX="2.75" PointY="4.75" IsExpanded="true" />
+        <AssociationConnector Association="cafeModel.FK__Orders__Customer__787EE5A0" ManuallyRouted="false" />
+        <AssociationConnector Association="cafeModel.FK__Orders__Employee__797309D9" ManuallyRouted="false" />
+        <AssociationConnector Association="cafeModel.FK__Menu__GroupId__7C4F7684" ManuallyRouted="false" />
+        <AssociationConnector Association="cafeModel.FK__Product_O__Produ__7F2BE32F" ManuallyRouted="false" />
+        <AssociationConnector Association="cafeModel.FK__Product_O__Order__00200768" ManuallyRouted="false" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

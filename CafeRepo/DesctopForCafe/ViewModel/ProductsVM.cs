@@ -12,10 +12,11 @@ namespace DesctopForCafe.ViewModel
 {
     public class ProductsVM : ViewModelBase
     {
-        public ProductsVM()
+        public ProductsVM(int groupId)
         {
             var dbService = new DbService();
-            Products = dbService.GetProducts();
+            Products = dbService.GetProducts(groupId);
+            Group = dbService.GetGroupNameById(groupId);
         }
         private List<ProductsData> _products;
         public List<ProductsData> Products
@@ -27,7 +28,16 @@ namespace DesctopForCafe.ViewModel
                 OnPropertyChanged("Products");
             }
         }
-
+        private string _groupName;
+        public string Group
+        {
+            get { return _groupName; }
+            set
+            {
+                _groupName = value;
+                OnPropertyChanged("Group");
+            }
+        }
         private ProductsData _selectedProduct;
         public ProductsData SelectedProduct
         {

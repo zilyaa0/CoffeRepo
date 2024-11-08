@@ -13,19 +13,30 @@ namespace DesctopForCafe.Services.DbService
 
         public bool CanLogin(string login, string password) 
         {
-            var db = cafeEntities.GetContext();
+            var db = cafeEntities1.GetContext();
             foreach (var person in db.Employee)
             {
-                if (person.Email == login)
+                if (person.Email == login && person.Password == password)
                     return true;
             }
             return false;
         }
 
+        public bool CanReg(string login, string password)
+        {
+            var db = cafeEntities1.GetContext();
+            foreach (var person in db.Employee)
+            {
+                if (person.Email == login)
+                    return false;
+            }
+            return true;
+        }
+
         public List<OrdersData> GetOrders()
         {
             var list = new List<OrdersData>();
-            var db = cafeEntities.GetContext();
+            var db = cafeEntities1.GetContext();
             foreach (var order in db.Orders)
             {
                 if ((bool)order.Status)
@@ -36,7 +47,7 @@ namespace DesctopForCafe.Services.DbService
                         CreatedAt = (DateTime)order.CreatedAt,
                         Customer = GetCustomerInfo((int)order.CustomerId),
                         TotalPrice = GetTotalPrice(order.Id),
-                        Items = GetItems(order.Id)
+                        Items = GetItems(order.Id)                        
                     });
                 }
             }
@@ -46,7 +57,7 @@ namespace DesctopForCafe.Services.DbService
         public List<CustomersData> GetCustomers()
         {
             var list = new List<CustomersData>();
-            var db = cafeEntities.GetContext();
+            var db = cafeEntities1.GetContext();
             foreach (var customer in db.Customers)
             {
                 list.Add(new CustomersData()
@@ -61,25 +72,28 @@ namespace DesctopForCafe.Services.DbService
             return list;
         }
 
-        public List<ProductsData> GetProducts()
+        public List<ProductsData> GetProducts(int groupId)
         {
             var list = new List<ProductsData>();
-            var db = cafeEntities.GetContext();
+            var db = cafeEntities1.GetContext();
             foreach (var product in db.Menu)
             {
-                list.Add(new ProductsData()
+                if (product.GroupId == (groupId + 1))
                 {
-                    Id = product.Id,
-                    Name = product.ProductName,
-                    Price = product.Price
-                });
+                    list.Add(new ProductsData()
+                    {
+                        Id = product.Id,
+                        Name = product.ProductName,
+                        Price = product.Price
+                    });
+                }
             }
             return list;
         }
 
         public void SaveProduct(ProductsData newproduct)
         {
-            var db = cafeEntities.GetContext();
+            var db = cafeEntities1.GetContext();
             foreach (var product in db.Menu)
             {
                 if (product.Id == newproduct.Id)
@@ -93,14 +107,20 @@ namespace DesctopForCafe.Services.DbService
 
         public void CompleteOrder(int id)
         {
-            var db = cafeEntities.GetContext();
+            var db = cafeEntities1.GetContext();
             db.Orders.Where(c => c.Id == id).FirstOrDefault().Status = false;
             db.SaveChanges();
         }
 
+        public string GetGroupNameById(int groupId)
+        {
+            var db = cafeEntities1.GetContext();
+            return db.ProductsGroup.Where(c => c.Id == (groupId + 1)).FirstOrDefault().GroupName;
+        }
+
         private string GetCustomerInfo(int customerId)
         {
-            var db = cafeEntities.GetContext();
+            var db = cafeEntities1.GetContext();
             var person = db.Customers.Where(c => c.Id == customerId).FirstOrDefault();
             return person.FirstName + " " + person.LastName;
         }
@@ -108,18 +128,18 @@ namespace DesctopForCafe.Services.DbService
         private int GetTotalPrice(int orderId)
         {
             int price = 0;
-            var db = cafeEntities.GetContext();
+            var db = cafeEntities1.GetContext();
             var products = db.Product_Order.Where(c => c.OrderId == orderId);
             foreach (var product in products)
             {
-                price += product.Menu.Price;
+                price += product.Menu.Price * (int)product.Count;
             }
             return price;
         }
         private List<ProductsData> GetItems(int orderId)
         {
             var list = new List<ProductsData>();
-            var db = cafeEntities.GetContext();
+            var db = cafeEntities1.GetContext();
             var products = db.Product_Order.Where(c => c.OrderId == orderId);
             foreach (var product in products)
             {
@@ -128,7 +148,8 @@ namespace DesctopForCafe.Services.DbService
                 {
                     Id = p.Id,
                     Name = p.ProductName,
-                    Price = p.Price
+                    Price = p.Price,
+                    Count = (int)product.Count
                 });
             }
             return list;

@@ -24,6 +24,7 @@
           <Property Name="LastName" Type="nvarchar" MaxLength="20" Nullable="false" />
           <Property Name="Email" Type="varchar" MaxLength="30" />
           <Property Name="Phone" Type="varchar" MaxLength="20" />
+          <Property Name="Password" Type="varchar" MaxLength="20" Nullable="false" />
         </EntityType>
         <EntityType Name="Menu">
           <Key>
@@ -32,6 +33,7 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ProductName" Type="nvarchar" MaxLength="30" Nullable="false" />
           <Property Name="Price" Type="int" Nullable="false" />
+          <Property Name="GroupId" Type="int" />
         </EntityType>
         <EntityType Name="Orders">
           <Key>
@@ -51,6 +53,14 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ProductId" Type="int" />
           <Property Name="OrderId" Type="int" />
+          <Property Name="Count" Type="int" />
+        </EntityType>
+        <EntityType Name="ProductsGroup">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="GroupName" Type="varchar" MaxLength="30" />
         </EntityType>
         <EntityType Name="sysdiagrams">
           <Key>
@@ -62,7 +72,19 @@
           <Property Name="version" Type="int" />
           <Property Name="definition" Type="varbinary(max)" />
         </EntityType>
-        <Association Name="FK__Orders__Customer__412EB0B6">
+        <Association Name="FK__Menu__GroupId__7C4F7684">
+          <End Role="ProductsGroup" Type="Self.ProductsGroup" Multiplicity="0..1" />
+          <End Role="Menu" Type="Self.Menu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProductsGroup">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Menu">
+              <PropertyRef Name="GroupId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Orders__Customer__787EE5A0">
           <End Role="Customers" Type="Self.Customers" Multiplicity="0..1" />
           <End Role="Orders" Type="Self.Orders" Multiplicity="*" />
           <ReferentialConstraint>
@@ -74,7 +96,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Orders__Employee__4222D4EF">
+        <Association Name="FK__Orders__Employee__797309D9">
           <End Role="Employee" Type="Self.Employee" Multiplicity="0..1" />
           <End Role="Orders" Type="Self.Orders" Multiplicity="*" />
           <ReferentialConstraint>
@@ -86,7 +108,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Product_O__Order__45F365D3">
+        <Association Name="FK__Product_O__Order__00200768">
           <End Role="Orders" Type="Self.Orders" Multiplicity="0..1" />
           <End Role="Product_Order" Type="Self.Product_Order" Multiplicity="*" />
           <ReferentialConstraint>
@@ -98,7 +120,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Product_O__Produ__44FF419A">
+        <Association Name="FK__Product_O__Produ__7F2BE32F">
           <End Role="Menu" Type="Self.Menu" Multiplicity="0..1" />
           <End Role="Product_Order" Type="Self.Product_Order" Multiplicity="*" />
           <ReferentialConstraint>
@@ -116,20 +138,25 @@
           <EntitySet Name="Menu" EntityType="Self.Menu" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Orders" EntityType="Self.Orders" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Product_Order" EntityType="Self.Product_Order" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ProductsGroup" EntityType="Self.ProductsGroup" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK__Orders__Customer__412EB0B6" Association="Self.FK__Orders__Customer__412EB0B6">
+          <AssociationSet Name="FK__Menu__GroupId__7C4F7684" Association="Self.FK__Menu__GroupId__7C4F7684">
+            <End Role="ProductsGroup" EntitySet="ProductsGroup" />
+            <End Role="Menu" EntitySet="Menu" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Orders__Customer__787EE5A0" Association="Self.FK__Orders__Customer__787EE5A0">
             <End Role="Customers" EntitySet="Customers" />
             <End Role="Orders" EntitySet="Orders" />
           </AssociationSet>
-          <AssociationSet Name="FK__Orders__Employee__4222D4EF" Association="Self.FK__Orders__Employee__4222D4EF">
+          <AssociationSet Name="FK__Orders__Employee__797309D9" Association="Self.FK__Orders__Employee__797309D9">
             <End Role="Employee" EntitySet="Employee" />
             <End Role="Orders" EntitySet="Orders" />
           </AssociationSet>
-          <AssociationSet Name="FK__Product_O__Order__45F365D3" Association="Self.FK__Product_O__Order__45F365D3">
+          <AssociationSet Name="FK__Product_O__Order__00200768" Association="Self.FK__Product_O__Order__00200768">
             <End Role="Orders" EntitySet="Orders" />
             <End Role="Product_Order" EntitySet="Product_Order" />
           </AssociationSet>
-          <AssociationSet Name="FK__Product_O__Produ__44FF419A" Association="Self.FK__Product_O__Produ__44FF419A">
+          <AssociationSet Name="FK__Product_O__Produ__7F2BE32F" Association="Self.FK__Product_O__Produ__7F2BE32F">
             <End Role="Menu" EntitySet="Menu" />
             <End Role="Product_Order" EntitySet="Product_Order" />
           </AssociationSet>
@@ -148,7 +175,7 @@
           <Property Name="LastName" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Email" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
           <Property Name="Phone" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Orders" Relationship="Self.FK__Orders__Customer__412EB0B6" FromRole="Customers" ToRole="Orders" />
+          <NavigationProperty Name="Orders" Relationship="Self.FK__Orders__Customer__787EE5A0" FromRole="Customers" ToRole="Orders" />
         </EntityType>
         <EntityType Name="Employee">
           <Key>
@@ -159,7 +186,8 @@
           <Property Name="LastName" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Email" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
           <Property Name="Phone" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Orders" Relationship="Self.FK__Orders__Employee__4222D4EF" FromRole="Employee" ToRole="Orders" />
+          <Property Name="Password" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Orders" Relationship="Self.FK__Orders__Employee__797309D9" FromRole="Employee" ToRole="Orders" />
         </EntityType>
         <EntityType Name="Menu">
           <Key>
@@ -168,7 +196,9 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="ProductName" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Price" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Product_Order" Relationship="Self.FK__Product_O__Produ__44FF419A" FromRole="Menu" ToRole="Product_Order" />
+          <Property Name="GroupId" Type="Int32" />
+          <NavigationProperty Name="ProductsGroup" Relationship="Self.FK__Menu__GroupId__7C4F7684" FromRole="Menu" ToRole="ProductsGroup" />
+          <NavigationProperty Name="Product_Order" Relationship="Self.FK__Product_O__Produ__7F2BE32F" FromRole="Menu" ToRole="Product_Order" />
         </EntityType>
         <EntityType Name="Orders">
           <Key>
@@ -180,9 +210,9 @@
           <Property Name="CreatedAt" Type="DateTime" Precision="0" />
           <Property Name="Status" Type="Boolean" />
           <Property Name="TotalPrice" Type="Int32" />
-          <NavigationProperty Name="Customers" Relationship="Self.FK__Orders__Customer__412EB0B6" FromRole="Orders" ToRole="Customers" />
-          <NavigationProperty Name="Employee" Relationship="Self.FK__Orders__Employee__4222D4EF" FromRole="Orders" ToRole="Employee" />
-          <NavigationProperty Name="Product_Order" Relationship="Self.FK__Product_O__Order__45F365D3" FromRole="Orders" ToRole="Product_Order" />
+          <NavigationProperty Name="Customers" Relationship="Self.FK__Orders__Customer__787EE5A0" FromRole="Orders" ToRole="Customers" />
+          <NavigationProperty Name="Employee" Relationship="Self.FK__Orders__Employee__797309D9" FromRole="Orders" ToRole="Employee" />
+          <NavigationProperty Name="Product_Order" Relationship="Self.FK__Product_O__Order__00200768" FromRole="Orders" ToRole="Product_Order" />
         </EntityType>
         <EntityType Name="Product_Order">
           <Key>
@@ -191,8 +221,17 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="ProductId" Type="Int32" />
           <Property Name="OrderId" Type="Int32" />
-          <NavigationProperty Name="Menu" Relationship="Self.FK__Product_O__Produ__44FF419A" FromRole="Product_Order" ToRole="Menu" />
-          <NavigationProperty Name="Orders" Relationship="Self.FK__Product_O__Order__45F365D3" FromRole="Product_Order" ToRole="Orders" />
+          <Property Name="Count" Type="Int32" />
+          <NavigationProperty Name="Menu" Relationship="Self.FK__Product_O__Produ__7F2BE32F" FromRole="Product_Order" ToRole="Menu" />
+          <NavigationProperty Name="Orders" Relationship="Self.FK__Product_O__Order__00200768" FromRole="Product_Order" ToRole="Orders" />
+        </EntityType>
+        <EntityType Name="ProductsGroup">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="GroupName" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Menu" Relationship="Self.FK__Menu__GroupId__7C4F7684" FromRole="ProductsGroup" ToRole="Menu" />
         </EntityType>
         <EntityType Name="sysdiagrams">
           <Key>
@@ -204,7 +243,7 @@
           <Property Name="version" Type="Int32" />
           <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
         </EntityType>
-        <Association Name="FK__Orders__Customer__412EB0B6">
+        <Association Name="FK__Orders__Customer__787EE5A0">
           <End Role="Customers" Type="Self.Customers" Multiplicity="0..1" />
           <End Role="Orders" Type="Self.Orders" Multiplicity="*" />
           <ReferentialConstraint>
@@ -216,7 +255,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Orders__Employee__4222D4EF">
+        <Association Name="FK__Orders__Employee__797309D9">
           <End Role="Employee" Type="Self.Employee" Multiplicity="0..1" />
           <End Role="Orders" Type="Self.Orders" Multiplicity="*" />
           <ReferentialConstraint>
@@ -228,7 +267,19 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Product_O__Produ__44FF419A">
+        <Association Name="FK__Menu__GroupId__7C4F7684">
+          <End Role="ProductsGroup" Type="Self.ProductsGroup" Multiplicity="0..1" />
+          <End Role="Menu" Type="Self.Menu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProductsGroup">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Menu">
+              <PropertyRef Name="GroupId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Product_O__Produ__7F2BE32F">
           <End Role="Menu" Type="Self.Menu" Multiplicity="0..1" />
           <End Role="Product_Order" Type="Self.Product_Order" Multiplicity="*" />
           <ReferentialConstraint>
@@ -240,7 +291,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Product_O__Order__45F365D3">
+        <Association Name="FK__Product_O__Order__00200768">
           <End Role="Orders" Type="Self.Orders" Multiplicity="0..1" />
           <End Role="Product_Order" Type="Self.Product_Order" Multiplicity="*" />
           <ReferentialConstraint>
@@ -252,26 +303,31 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="cafeEntities" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="cafeEntities1" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Customers" EntityType="Self.Customers" />
           <EntitySet Name="Employee" EntityType="Self.Employee" />
           <EntitySet Name="Menu" EntityType="Self.Menu" />
           <EntitySet Name="Orders" EntityType="Self.Orders" />
           <EntitySet Name="Product_Order" EntityType="Self.Product_Order" />
+          <EntitySet Name="ProductsGroup" EntityType="Self.ProductsGroup" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
-          <AssociationSet Name="FK__Orders__Customer__412EB0B6" Association="Self.FK__Orders__Customer__412EB0B6">
+          <AssociationSet Name="FK__Orders__Customer__787EE5A0" Association="Self.FK__Orders__Customer__787EE5A0">
             <End Role="Customers" EntitySet="Customers" />
             <End Role="Orders" EntitySet="Orders" />
           </AssociationSet>
-          <AssociationSet Name="FK__Orders__Employee__4222D4EF" Association="Self.FK__Orders__Employee__4222D4EF">
+          <AssociationSet Name="FK__Orders__Employee__797309D9" Association="Self.FK__Orders__Employee__797309D9">
             <End Role="Employee" EntitySet="Employee" />
             <End Role="Orders" EntitySet="Orders" />
           </AssociationSet>
-          <AssociationSet Name="FK__Product_O__Produ__44FF419A" Association="Self.FK__Product_O__Produ__44FF419A">
+          <AssociationSet Name="FK__Menu__GroupId__7C4F7684" Association="Self.FK__Menu__GroupId__7C4F7684">
+            <End Role="ProductsGroup" EntitySet="ProductsGroup" />
+            <End Role="Menu" EntitySet="Menu" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Product_O__Produ__7F2BE32F" Association="Self.FK__Product_O__Produ__7F2BE32F">
             <End Role="Menu" EntitySet="Menu" />
             <End Role="Product_Order" EntitySet="Product_Order" />
           </AssociationSet>
-          <AssociationSet Name="FK__Product_O__Order__45F365D3" Association="Self.FK__Product_O__Order__45F365D3">
+          <AssociationSet Name="FK__Product_O__Order__00200768" Association="Self.FK__Product_O__Order__00200768">
             <End Role="Orders" EntitySet="Orders" />
             <End Role="Product_Order" EntitySet="Product_Order" />
           </AssociationSet>
@@ -281,7 +337,7 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="Хранилище cafeModelContainer" CdmEntityContainer="cafeEntities">
+        <EntityContainerMapping StorageEntityContainer="Хранилище cafeModelContainer" CdmEntityContainer="cafeEntities1">
           <EntitySetMapping Name="Customers">
             <EntityTypeMapping TypeName="cafeModel.Customers">
               <MappingFragment StoreEntitySet="Customers">
@@ -301,6 +357,7 @@
                 <ScalarProperty Name="LastName" ColumnName="LastName" />
                 <ScalarProperty Name="Email" ColumnName="Email" />
                 <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -310,6 +367,7 @@
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="ProductName" ColumnName="ProductName" />
                 <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="GroupId" ColumnName="GroupId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -331,6 +389,15 @@
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="ProductId" ColumnName="ProductId" />
                 <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+                <ScalarProperty Name="Count" ColumnName="Count" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProductsGroup">
+            <EntityTypeMapping TypeName="cafeModel.ProductsGroup">
+              <MappingFragment StoreEntitySet="ProductsGroup">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="GroupName" ColumnName="GroupName" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

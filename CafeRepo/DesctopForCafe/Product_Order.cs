@@ -17,6 +17,7 @@ namespace DesctopForCafe
         public int Id { get; set; }
         public Nullable<int> ProductId { get; set; }
         public Nullable<int> OrderId { get; set; }
+        public Nullable<int> Count { get; set; }
     
         public virtual Menu Menu { get; set; }
         public virtual Orders Orders { get; set; }

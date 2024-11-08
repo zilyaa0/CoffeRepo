@@ -12,6 +12,7 @@ namespace DesctopForCafe.ViewModel
     public class MenuVM : ViewModelBase
     {
         private int _selectedMenuItem;
+        private int _selectedGroup;
         public MenuVM()
         {
         }
@@ -26,6 +27,16 @@ namespace DesctopForCafe.ViewModel
             }
         }
 
+        public int SelectedGroup
+        {
+            get { return _selectedGroup; }
+            set
+            {
+                _selectedGroup = value;
+                OnPropertyChanged("SelectedGroup");
+            }
+        }
+
         public ICommand OpenItem
         {
             get
@@ -36,10 +47,25 @@ namespace DesctopForCafe.ViewModel
                 }, CanContinue);
             }
         }
+        public ICommand OpenProductGroup
+        {
+            get
+            {
+                return new RelayCommand((obj) =>
+                {
+                    OpenNextWin2();
+                }, CanContinue2);
+            }
+        }
 
         private bool CanContinue(object obj)
         {
-            return SelectedMenuItem >= 0|| SelectedMenuItem <=2;
+            return SelectedMenuItem >= 0 || SelectedMenuItem <=1;
+        }
+
+        private bool CanContinue2(object obj)
+        {
+            return SelectedGroup >= 0 || SelectedGroup <= 3;
         }
 
         private void OpenNextWin()
@@ -58,14 +84,14 @@ namespace DesctopForCafe.ViewModel
                 customers.DataContext = vm;
                 customers.ShowDialog();
             }
-            if (SelectedMenuItem == 2)
-            {
-                var products = new ProductsView();
-                var vm = new ProductsVM();
-                products.DataContext = vm;
-                products.ShowDialog();
-            }
-
+        }
+        private void OpenNextWin2()
+        {
+            SelectedMenuItem = 2;
+            var products = new ProductsView();
+            var vm = new ProductsVM(SelectedGroup);
+            products.DataContext = vm;
+            products.ShowDialog();
         }
     }
 }

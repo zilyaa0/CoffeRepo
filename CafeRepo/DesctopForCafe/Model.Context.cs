@@ -13,21 +13,19 @@ namespace DesctopForCafe
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class cafeEntities : DbContext
+    public partial class cafeEntities1 : DbContext
     {
-        private static cafeEntities _context;
-        public cafeEntities()
-            : base("name=cafeEntities")
+        private static cafeEntities1 _context;
+        public cafeEntities1()
+            : base("name=cafeEntities1")
         {
         }
-       
-        public static cafeEntities GetContext()
+        public static cafeEntities1 GetContext()
         {
             if (_context == null)
-                _context = new cafeEntities();
+                _context = new cafeEntities1();
             return _context;
         }
-
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             throw new UnintentionalCodeFirstException();
@@ -38,6 +36,7 @@ namespace DesctopForCafe
         public virtual DbSet<Menu> Menu { get; set; }
         public virtual DbSet<Orders> Orders { get; set; }
         public virtual DbSet<Product_Order> Product_Order { get; set; }
+        public virtual DbSet<ProductsGroup> ProductsGroup { get; set; }
         public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
     }
 }

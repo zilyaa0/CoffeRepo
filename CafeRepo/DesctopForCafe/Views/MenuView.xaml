@@ -29,8 +29,28 @@
                     </StackPanel>
                 </ListViewItem>
                 <ListViewItem>
-                    <StackPanel Orientation="Horizontal">
+                    <StackPanel Orientation="Vertical">
                         <TextBlock Text="Каталог" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                        <ListView Background="#C3C3C3" BorderThickness="0" SelectedIndex="{Binding SelectedGroup}">
+                            <ListViewItem>
+                                <TextBlock Text=" - Горячие напитки" FontSize="10" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                            </ListViewItem>
+                            <ListViewItem>
+                                <TextBlock Text=" - Десерты" FontSize="10" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                            </ListViewItem>
+                            <ListViewItem>
+                                <TextBlock Text=" - Холодные напитки" FontSize="10" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                            </ListViewItem>
+                            <ListViewItem>
+                                <TextBlock Text=" - Ланч" FontSize="10" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                            </ListViewItem>
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="MouseDoubleClick">
+                                    <i:InvokeCommandAction 
+                                        Command="{Binding OpenProductGroup}"/>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </ListView>
                     </StackPanel>
                 </ListViewItem>
             </ListView>

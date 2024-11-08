@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DesctopForCafe.Views"
         mc:Ignorable="d"
-        Title="CurrentOrderView" Height="450" Width="800"
+        Title="CurrentOrderView" MinHeight="450" Width="800"
         x:Name="window">
     <Grid>
         <Grid.RowDefinitions>
@@ -35,16 +35,24 @@
                 <TextBox Text="{Binding CurrentOrder.Customer}" Margin="20 10 30 10" Height="20" Grid.Row="1" Grid.Column="1" TextAlignment="Center" VerticalContentAlignment="Center" IsReadOnly="True"/>
                 <TextBox Text="{Binding CurrentOrder.CreatedAt}" Margin="20 10 30 10" Height="20" Grid.Row="2" Grid.Column="1" TextAlignment="Center" VerticalContentAlignment="Center" IsReadOnly="True"/>
                 <TextBox Text="{Binding CurrentOrder.TotalPrice}" Margin="20 10 30 10" Height="20" Grid.Row="4" Grid.Column="1" TextAlignment="Center" VerticalContentAlignment="Center" IsReadOnly="True"/>
-                <ListView Margin="20 10 30 10" Grid.Row="3" Grid.Column="1" ItemsSource="{Binding CurrentOrder.Items}">
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                <TextBox Margin="20 0 0 2" Height="20" MinWidth="150" Text="{Binding Name}" TextAlignment="Center" VerticalContentAlignment="Center" IsReadOnly="True"/>
-                                <TextBox Margin="10 0 20 2" Height="20" MinWidth="80" Text="{Binding Price}" TextAlignment="Center" VerticalContentAlignment="Center" IsReadOnly="True"/>
-                            </StackPanel>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
+                <StackPanel Grid.Row="3" Grid.Column="1" Orientation="Vertical" Margin="0 10 0 0">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Margin="30 0 0 0" Width="150" Text="Наименование" FontSize="10" TextAlignment="Center"/>
+                        <TextBlock Margin="10 0 0 0" Width="80" Text="Цена за единицу" FontSize="10" TextAlignment="Center"/>
+                        <TextBlock Margin="10 0 20 0" Width="80" Text="Количество" FontSize="10" TextAlignment="Center"/>
+                    </StackPanel>
+                    <ListView Margin="20 10 30 10" ItemsSource="{Binding CurrentOrder.Items}">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                    <TextBox Margin="20 0 0 2" Height="20" MinWidth="150" Text="{Binding Name}" TextAlignment="Center" VerticalContentAlignment="Center" IsReadOnly="True"/>
+                                    <TextBox Margin="10 0 0 2" Height="20" MinWidth="80" Text="{Binding Price}" TextAlignment="Center" VerticalContentAlignment="Center" IsReadOnly="True"/>
+                                    <TextBox Margin="10 0 20 2" Height="20" MinWidth="80" Text="{Binding Count}" TextAlignment="Center" VerticalContentAlignment="Center" IsReadOnly="True"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </StackPanel>
             </Grid>
         </StackPanel>
         <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0 20 0 30">

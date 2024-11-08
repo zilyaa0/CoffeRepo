@@ -13,7 +13,10 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0">
-            <TextBlock Margin="30 30 30 0" Grid.Row="0" Grid.ColumnSpan="2" Text="Позиции меню" HorizontalAlignment="Center" FontSize="20"/>
+            <StackPanel Orientation="Horizontal" Margin="30 30 30 0" Grid.Row="0" Grid.ColumnSpan="2" HorizontalAlignment="Center">
+                <TextBlock Text="Товары группы " FontSize="20"/>
+                <TextBlock Text="{Binding Group}"  FontSize="20"/>
+            </StackPanel>
             <DataGrid Background="#C3C3C3" Margin="40 20" SelectedItem="{Binding SelectedProduct}" ItemsSource="{Binding Products}" AutoGenerateColumns="False" IsReadOnly="True" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="MouseDoubleClick">
